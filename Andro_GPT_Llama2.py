@@ -17,6 +17,7 @@ from langchain.prompts.chat import SystemMessagePromptTemplate
 ########################################
 
 import os
+import requests
 from time import sleep
 
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -114,8 +115,6 @@ def init_messages() -> None:
             ]
             
             
-        st.session_state.costs = []
-
 user_query = st.chat_input(placeholder="Ask me Anything!")
 
 def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
@@ -135,14 +134,17 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
         
     
     elif model_name.startswith("llama-2-"):
+	    
+	    API_URL = "https://api-inference.huggingface.co/models/meta-llama/Llama-2-70b-hf"
+            headers = {"Authorization": "Bearer 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"}
+	    
         callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
         
-        return CTransformers(model="/home/ataliba/LLM_Workshop/Experimental_Lama_QA_Retrieval/models/Wizard-Vicuna-13B-Uncensored.ggmlv3.q5_1.bin",
+        return CTransformers(model=API_URL,
                                 model_type="llama",
                                 max_new_tokens=512,
                                 temperature=temperature)
-         
-        #return LlamaCpp()
+
         
 openai_api_key = "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"
 
