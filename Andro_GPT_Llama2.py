@@ -80,14 +80,6 @@ st.title(":rocket: Agent Lirio :rocket:")
 st.markdown("I am your Subsea Technical Assistant ready to do all of the leg work on your documents, emails, procedures, etc.\
     I am capable to extract relevant info and domain knowledge!")
 
-from rebuff import Rebuff
-
-# For a quick start, use our hosted rebuff server with your user's specific API token
-# Your `<your_rebuff_api_token>` can be found here: https://www.rebuff.ai/playground#add-to-app
-
-# Alternatively, you can self host your own rebuff server: https://github.com/protectai/rebuff#self-hosting
-
-
 
 
 @st.cache_resource(ttl="1h")
@@ -125,6 +117,12 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
     
     temperature = st.sidebar.slider("Temperature:", min_value=0.0,
                                     max_value=1.0, value=0.0, step=0.01)
+
+# Load model directly
+    from transformers import AutoTokenizer, AutoModelForCausalLM
+
+    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-70b-hf")
+    model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-70b-hf")	
     
     if model_name.startswith("gpt-"):
                     
@@ -135,12 +133,9 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
     
     elif model_name.startswith("llama-2-"):
 	    
-	API_URL = "https://api-inference.huggingface.co/models/meta-llama/Llama-2-70b-hf"
-        headers = {"Authorization": "Bearer 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"}
-	    
         callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
         
-        return CTransformers(model=API_URL,
+        return CTransformers(model=model,
                                 model_type="llama",
                                 max_new_tokens=512,
                                 temperature=temperature)
