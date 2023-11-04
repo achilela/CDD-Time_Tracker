@@ -44,6 +44,8 @@ from langchain.document_loaders import (PyPDFLoader, Docx2txtLoader, CSVLoader,
     UnstructuredWordDocumentLoader,
     WebBaseLoader,
 )
+from langchain.vectorstores import FAISS
+
 warnings.filterwarnings("ignore", category=UserWarning)
 APP_NAME = "ValonyLabsz"
 MODEL = "gpt-3.5-turbo"
@@ -105,18 +107,21 @@ def configure_qa_chain(uploaded_files):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=200)
     splits = text_splitter.split_documents(docs)
     embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+
+# storing embeddings in the vector store
+    vectorstore = FAISS.from_documents(splits, embeddings)
     
     persist_directory = "/home/ataliba/LLM_Workshop/Experimental_Lama_QA_Retrieval/db/"
     
-    db = Chroma.from_documents(documents=splits, embedding=embeddings, persist_directory=persist_directory)
+    #db = Chroma.from_documents(documents=splits, embedding=embeddings, persist_directory=persist_directory)
     
-    db.persist()
-    db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
+    #db.persist()
+    #db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
     memory = ConversationBufferMemory(
     memory_key="chat_history", output_key='answer', return_messages=False)    
     embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
-    db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
-    retriever = db.as_retriever(search_type="mmr", search_kwargs={"k": 2, "fetch_k": 4})
+    #db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
+    retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 4, "fetch_k": 4})
     return retriever
 
 class StreamHandler(BaseCallbackHandler):
