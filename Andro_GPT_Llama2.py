@@ -121,7 +121,7 @@ def configure_qa_chain(uploaded_files):
     memory_key="chat_history", output_key='answer', return_messages=False)    
     embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
     #db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
-    retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 4, "fetch_k": 4})
+    retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 2, "fetch_k": 4})
     return retriever
 
 class StreamHandler(BaseCallbackHandler):
