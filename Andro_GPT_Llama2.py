@@ -58,7 +58,7 @@ st.title(":rocket: Agent Lirio :rocket:")
 st.markdown("I am your Technical Assistant ready to do all of the leg work on your documents, emails, procedures, etc.\
     I am capable to extract relevant info and domain knowledge!")
 
-__import__('pysqlite3')
+__import__('pysqlite3-binary')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
