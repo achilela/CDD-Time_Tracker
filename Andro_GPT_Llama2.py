@@ -11,7 +11,6 @@ from langchain.llms import CTransformers
 from langchain.prompts import ChatPromptTemplate
 from langchain.prompts import PromptTemplate
 from langchain.prompts.chat import SystemMessagePromptTemplate
-import os
 from time import sleep
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.schema import Document
@@ -30,7 +29,6 @@ from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chains import ConversationalRetrievalChain
 from langchain.vectorstores import DocArrayInMemorySearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
-import openai
 from langchain.document_loaders import (PyPDFLoader, Docx2txtLoader, CSVLoader,
     DirectoryLoader,
     GitLoader,
