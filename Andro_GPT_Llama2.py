@@ -55,8 +55,13 @@ st.set_page_config(
 av_us = '/home/ataliba/Documents/Ataliba.png' 
 av_ass = '/home/ataliba/Documents/Robot.png'
 st.title(":rocket: Agent Lirio :rocket:")
-st.markdown("I am your Subsea Technical Assistant ready to do all of the leg work on your documents, emails, procedures, etc.\
+st.markdown("I am your Technical Assistant ready to do all of the leg work on your documents, emails, procedures, etc.\
     I am capable to extract relevant info and domain knowledge!")
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 
 @st.cache_resource(ttl="1h")
 def init_page() -> None:
