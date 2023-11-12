@@ -87,7 +87,8 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
         
 
 #openai_api_key = st.secrets["openai_key"]
-openai_api_key = os.environ[OPENAI_API_KEY]
+#openai_api_key = os.environ[OPENAI_API_KEY]
+openai_api_key = "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"
 
 
 def configure_qa_chain(uploaded_files):
