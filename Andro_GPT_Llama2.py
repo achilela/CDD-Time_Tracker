@@ -87,7 +87,7 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
         
 
 openai_api_key = st.secrets["openai_key"]
-openai_api_key = os.environ[OPENAI_API_KEY]
+#openai_api_key = os.environ[OPENAI_API_KEY]
 #openai_api_key = "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"
 
 
