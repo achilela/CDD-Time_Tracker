@@ -4,4 +4,4 @@
 # Ada Library Information
 *.ali
 
-*.secrets.toml
+secrets.toml
