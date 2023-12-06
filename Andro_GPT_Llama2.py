@@ -88,7 +88,9 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
                                 temperature=temperature)
         
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
+#openai_api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 #openai_api_key = os.environ[OPENAI_API_KEY]
 #openai_api_key = "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"
 
@@ -108,7 +110,7 @@ def configure_qa_chain(uploaded_files):
               docs.extend(loaded_documents) #loader.load_and_split())
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=200)
     splits = text_splitter.split_documents(docs)
-    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+    embeddings = OpenAIEmbeddings(openai_api_key=openai.api_key)
 
 # storing embeddings in the vector store
     vectorstore = FAISS.from_documents(splits, embeddings)
