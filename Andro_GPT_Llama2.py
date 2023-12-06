@@ -43,6 +43,7 @@ from langchain.document_loaders import (PyPDFLoader, Docx2txtLoader, CSVLoader,
     WebBaseLoader,
 )
 from langchain.vectorstores import FAISS
+os.environ['OPENAI_API_KEY'] = 'dummy_key'
 
 warnings.filterwarnings("ignore", category=UserWarning)
 APP_NAME = "ValonyLabsz"
@@ -119,7 +120,7 @@ def configure_qa_chain(uploaded_files):
     #db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
     memory = ConversationBufferMemory(
     memory_key="chat_history", output_key='answer', return_messages=False)    
-    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
+    
     #db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
     retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 2, "fetch_k": 4})
     return retriever
