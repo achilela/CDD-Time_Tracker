@@ -43,7 +43,8 @@ from langchain.document_loaders import (PyPDFLoader, Docx2txtLoader, CSVLoader,
     WebBaseLoader,
 )
 from langchain.vectorstores import FAISS
-os.environ['OPENAI_API_KEY'] = 'dummy_key'
+from dotenv import load_dotenv
+load_dotenv()
 
 warnings.filterwarnings("ignore", category=UserWarning)
 APP_NAME = "ValonyLabsz"
@@ -87,7 +88,7 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
                                 temperature=temperature)
         
 
-openai_api_key = st.secrets["openai_key"]
+openai_api_key = os.getenv("OPENAI_API_KEY"))
 #openai_api_key = os.environ[OPENAI_API_KEY]
 #openai_api_key = "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"
 
