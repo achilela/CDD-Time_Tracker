@@ -53,8 +53,8 @@ st.set_option("client.showErrorDetails", True)
 st.set_page_config(
     page_title=APP_NAME, page_icon=PAGE_ICON, initial_sidebar_state="expanded"
 )
-av_us = '/home/ataliba/Documents/Ataliba.png' 
-av_ass = '/home/ataliba/Documents/Robot.png'
+av_us = '/https://raw.githubusercontent.com/achilela/master/Ataliba' 
+av_ass = '/https://raw.githubusercontent.com/achilela/master/Robot'
 st.title(":rocket: Agent Lirio :rocket:")
 st.markdown("I am your Technical Assistant ready to do all of the leg work on your documents, emails, procedures, etc.\
     I am capable to extract relevant info and domain knowledge!")
