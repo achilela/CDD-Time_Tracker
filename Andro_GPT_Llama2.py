@@ -86,9 +86,9 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
                                 temperature=temperature)
         
 
-openai_api_key = st.secrets["openai_key"]
+#openai_api_key = st.secrets["openai_key"]
 #openai_api_key = os.environ[OPENAI_API_KEY]
-#openai_api_key = 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
+openai_api_key = "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"
 
 
 def configure_qa_chain(uploaded_files):
