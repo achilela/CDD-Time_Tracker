@@ -163,10 +163,10 @@ if "messages" not in st.session_state or st.sidebar.button("Clear message histor
     st.session_state["messages"] = [{"role": "assistant", "content": "Please let me know how can I be of a help today?"}]
 for msg in st.session_state.messages:
     if msg["role"] == "user":
-        with st.chat_message(msg["role"],avatar=av_us):
+        with st.chat_message(msg["role"]): #,avatar=av_us):
             st.markdown(msg["content"])
     else:
-        with st.chat_message(msg["role"],avatar=av_ass):
+        with st.chat_message(msg["role"]): #,avatar=av_ass):
             st.markdown(msg["content"])
             
 if user_query: #
