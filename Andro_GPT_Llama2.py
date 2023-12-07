@@ -88,7 +88,7 @@ def select_llm() -> Union[ChatOpenAI, LlamaCpp]:
                                 temperature=temperature)
         
 
-openai_api_key = st.secrets("OPENAI_API_KEY")
+openai_api_key = os.getenv("OPENAI_API_KEY")
 #openai.api_key = os.getenv("OPENAI_API_KEY")
 
 #openai_api_key = os.environ[OPENAI_API_KEY]
