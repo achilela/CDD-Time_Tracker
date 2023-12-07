@@ -117,14 +117,13 @@ def configure_qa_chain(uploaded_files):
     
     persist_directory = "/home/ataliba/LLM_Workshop/Experimental_Lama_QA_Retrieval/db/"
     
-    #db = Chroma.from_documents(documents=splits, embedding=embeddings, persist_directory=persist_directory)
     
-    #db.persist()
-    #db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
+    
+   
     memory = ConversationBufferMemory(
     memory_key="chat_history", output_key='answer', return_messages=False)    
     
-    #db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
+   
     retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 2, "fetch_k": 4})
     return retriever
 
