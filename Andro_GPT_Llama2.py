@@ -3,13 +3,12 @@ import datetime
 import pandas as pd
  
 # Sidebar for user input
-st.sidebar.header('Input')
+st.sidebar.header('Insira as datas do contracto')
 start_date = st.sidebar.text_input('Start Date', '2022-01-01')
-end_date = st.sidebar.text_input('End Date', '2022-12-31')
  
 # Convert input to datetime
 start_date = pd.to_datetime(start_date)
-end_date = pd.to_datetime(end_date)
+end_date = pd.Timestamp.today().normalize()  # use today's date as end date
  
 # Function to calculate working days excluding weekends
 def calculate_working_days(start_date, end_date):
@@ -28,13 +27,13 @@ def calculate_working_days(start_date, end_date):
 working_days = calculate_working_days(start_date, end_date)
  
 # Calculate remaining time
-remaining_months = (end_date.year - start_date.year) * 12 + (end_date.month - start_date.month)
 remaining_days = (end_date - start_date).days
 remaining_hours = (end_date - start_date).seconds // 3600
+remaining_months = (end_date.year - start_date.year) * 12 + (end_date.month - start_date.month)
  
 # Display results
-st.header('Results')
-st.write(f'Working Days: {working_days}')
+st.header('CDD - Previsao dos Dias Trabalhados')
+st.write(f'Working Days So Far: {working_days}')
 st.write(f'Remaining Months: {remaining_months}')
 st.write(f'Remaining Days: {remaining_days}')
 st.write(f'Remaining Hours: {remaining_hours}')
