@@ -3,7 +3,7 @@ import datetime
 import pandas as pd
  
 # Sidebar for user input
-st.sidebar.header('Insira as Datas do Contracto')
+st.sidebar.header('Datas do Contrato')
 start_date = st.sidebar.text_input('Start Date', '2022-01-01')
 end_date = st.sidebar.text_input('End Date', '2022-12-31')
  
@@ -31,15 +31,24 @@ total_working_days = calculate_working_days(start_date, end_date)
 # Calculate working days worked so far
 working_days_so_far = calculate_working_days(start_date, today)
  
-# Calculate remaining time
-remaining_days = (end_date - today).days
-remaining_hours = (end_date - today).seconds // 3600
-remaining_months = (end_date.year - today.year) * 12 + (end_date.month - today.month)
+# Calculate remaining working days
+remaining_working_days = total_working_days - working_days_so_far
+ 
+# Convert remaining working days to months and hours
+remaining_months = remaining_working_days / 20  # approximate conversion to months
+remaining_hours = remaining_working_days * 8  # convert to hours assuming 8 hours per day
+ 
+# Calculate total worked hours
+total_worked_hours = total_working_days * 8  # convert to hours assuming 8 hours per day
+ 
+# Calculate remaining hours
+remaining_hours -= total_worked_hours
  
 # Display results
-st.header('CDD - Forecast Dias Trabalhados')
+st.header('Results')
 st.write(f'Total de Dias de Trabalho: {total_working_days}')
-st.write(f'Dias Trabalhados: {working_days_so_far}')
-st.write(f'Meses por Completar: {remaining_months}')
-st.write(f'Dias por Completar: {remaining_days}')
-st.write(f'Horas por Completar: {remaining_hours}')
+st.write(f'Dias ja Trabalhados: {working_days_so_far}')
+st.write(f'Dias Restantes de Trabalho: {remaining_working_days}')
+st.write(f'Meses Restantes de Trabalho: {remaining_months:.1f}')
+st.write(f'Horas Restantes de Trabalho: {remaining_hours}')
+st.write(f'Total de horas ja Trabalhadas: {total_worked_hours}')
