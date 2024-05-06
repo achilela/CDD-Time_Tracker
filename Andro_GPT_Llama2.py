@@ -3,7 +3,7 @@ import datetime
 import pandas as pd
  
 # Sidebar for user input
-st.sidebar.header('Input')
+st.sidebar.header('Insira as Datas do Contracto')
 start_date = st.sidebar.text_input('Start Date', '2022-01-01')
 end_date = st.sidebar.text_input('End Date', '2022-12-31')
  
@@ -37,9 +37,9 @@ remaining_hours = (end_date - today).seconds // 3600
 remaining_months = (end_date.year - today.year) * 12 + (end_date.month - today.month)
  
 # Display results
-st.header('Results')
-st.write(f'Total Working Days: {total_working_days}')
-st.write(f'Working Days So Far: {working_days_so_far}')
-st.write(f'Remaining Months: {remaining_months}')
-st.write(f'Remaining Days: {remaining_days}')
-st.write(f'Remaining Hours: {
+st.header('CDD - Forecast Dias Trabalhados')
+st.write(f'Total de Dias de Trabalho: {total_working_days}')
+st.write(f'Dias Trabalhados: {working_days_so_far}')
+st.write(f'Meses por Completar: {remaining_months}')
+st.write(f'Dias por Completar: {remaining_days}')
+st.write(f'Horas por Completar: {remaining_hours}')
