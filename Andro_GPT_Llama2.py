@@ -35,7 +35,7 @@ working_days_so_far = calculate_working_days(start_date, today)
 remaining_working_days = total_working_days - working_days_so_far
  
 # Convert remaining working days to months and hours
-remaining_months = remaining_working_days / 20  # approximate conversion to months
+remaining_months = remaining_working_days / 30  # approximate conversion to months
 remaining_hours = remaining_working_days * 8  # convert to hours assuming 8 hours per day
  
 # Calculate total worked hours
