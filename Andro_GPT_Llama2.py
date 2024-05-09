@@ -1,54 +1,71 @@
 import streamlit as st
-import datetime
+from datetime import datetime, date
 import pandas as pd
- 
-# Sidebar for user input
-st.sidebar.header('Datas do Contrato')
-start_date = st.sidebar.text_input('Start Date', '2022-01-01')
-end_date = st.sidebar.text_input('End Date', '2022-12-31')
- 
-# Convert input to datetime
-start_date = pd.to_datetime(start_date)
-end_date = pd.to_datetime(end_date)
-today = pd.Timestamp.today().normalize()  # use today's date as reference
- 
-# Function to calculate working days excluding weekends
+
 def calculate_working_days(start_date, end_date):
-    days = (end_date - start_date).days + 1
-    weeks = days // 7
-    remaining_days = days % 7
-    working_days = weeks * 5
-    if remaining_days > 0:
-        if start_date.weekday() <= end_date.weekday():
-            working_days += remaining_days
-        else:
-            working_days += end_date.weekday() - start_date.weekday()
-    return working_days
- 
-# Calculate total working days
+    # Create a date range excluding weekends
+    date_range = pd.date_range(start=start_date, end=end_date, freq='B')
+    total_working_days = len(date_range)
+    return total_working_days
+
+def calculate_worked_days(start_date, today_date):
+    # Create a date range excluding weekends
+    date_range = pd.date_range(start=start_date, end=today_date, freq='B')
+    worked_days = len(date_range)
+    return worked_days
+
+def days_to_months(days):
+    return round(days / 30.44, 2)
+
+def days_to_hours(days):
+    return days * 8
+
+def countdown_timer(remaining_days):
+    remaining_seconds = remaining_days * 24 * 60 * 60
+    return remaining_seconds
+
+# Streamlit app
+st.set_page_config(page_title="Calculadora de Dias de Trabalho", layout="wide")
+
+# Sidebar
+st.sidebar.title("Dados do Contrato")
+start_date = st.sidebar.date_input("Data de Início", value=date(2023, 1, 1))
+end_date = st.sidebar.date_input("Data de Término", value=date(2023, 12, 31))
+today_date = date.today()
+
+# Main content
+st.title("Calculadora de Dias de Trabalho")
+
 total_working_days = calculate_working_days(start_date, end_date)
- 
-# Calculate working days worked so far
-working_days_so_far = calculate_working_days(start_date, today)
- 
-# Calculate remaining working days
-remaining_working_days = total_working_days - working_days_so_far
- 
-# Convert remaining working days to months and hours
-remaining_months = remaining_working_days / 30  # approximate conversion to months
-remaining_hours = remaining_working_days * 8  # convert to hours assuming 8 hours per day
- 
-# Calculate total worked hours
-total_worked_hours = total_working_days * 8  # convert to hours assuming 8 hours per day
- 
-# Calculate remaining hours
-remaining_hours -= total_worked_hours
- 
-# Display results
-st.header('Results')
-st.write(f'Total de Dias de Trabalho: {total_working_days}')
-st.write(f'Dias ja Trabalhados: {working_days_so_far}')
-st.write(f'Dias Restantes de Trabalho: {remaining_working_days}')
-st.write(f'Meses Restantes de Trabalho: {remaining_months:.1f}')
-st.write(f'Total de horas ja Trabalhadas: {remaining_hours}')
-st.write(f'Horas Restantes de Trabalho: {total_worked_hours}')
+total_working_months = days_to_months(total_working_days)
+total_working_hours = days_to_hours(total_working_days)
+
+worked_days = calculate_worked_days(start_date, today_date)
+worked_hours = days_to_hours(worked_days)
+
+remaining_days = total_working_days - worked_days
+remaining_months = days_to_months(remaining_days)
+remaining_hours = days_to_hours(remaining_days)
+remaining_seconds = countdown_timer(remaining_days)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.header("Total de Dias de Trabalho")
+    st.metric("Dias", total_working_days)
+    st.metric("Meses", total_working_months)
+    st.metric("Horas", total_working_hours)
+
+    st.header("Dias Trabalhados")
+    st.metric("Dias", worked_days)
+    st.metric("Horas", worked_hours)
+
+with col2:
+    st.header("Dias Restantes")
+    st.metric("Dias", remaining_days)
+    st.metric("Meses", remaining_months)
+    st.metric("Horas", remaining_hours)
+
+    st.header("Contador Regressivo")
+    countdown_str = f"{remaining_days} Dias | {remaining_hours} Horas | {remaining_seconds // 60} Minutos | {remaining_seconds % 60} Segundos"
+    st.subheader(countdown_str)
