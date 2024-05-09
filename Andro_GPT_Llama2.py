@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import datetime, date
 import pandas as pd
+import time
 
 def calculate_working_days(start_date, end_date):
     # Create a date range excluding weekends
@@ -22,7 +23,24 @@ def days_to_hours(days):
 
 def countdown_timer(remaining_days):
     remaining_seconds = remaining_days * 24 * 60 * 60
-    return remaining_seconds
+    while remaining_seconds > 0:
+        days = remaining_seconds // (24 * 60 * 60)
+        hours = (remaining_seconds % (24 * 60 * 60)) // (60 * 60)
+        minutes = (remaining_seconds % (60 * 60)) // 60
+        seconds = remaining_seconds % 60
+
+        timer_str = f"{days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}"
+        st.markdown(
+            f"""
+            <div style="display: flex; justify-content: center; align-items: center; 
+                        background-color: #1E88E5; padding: 10px; border-radius: 5px;">
+                <h2 style="color: white; margin: 0;">{timer_str}</h2>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        time.sleep(1)
+        remaining_seconds -= 1
 
 # Streamlit app
 st.set_page_config(page_title="Calculadora de Dias de Trabalho", layout="wide")
@@ -46,7 +64,6 @@ worked_hours = days_to_hours(worked_days)
 remaining_days = total_working_days - worked_days
 remaining_months = days_to_months(remaining_days)
 remaining_hours = days_to_hours(remaining_days)
-remaining_seconds = countdown_timer(remaining_days)
 
 col1, col2 = st.columns(2)
 
@@ -67,5 +84,4 @@ with col2:
     st.metric("Horas", remaining_hours)
 
     st.header("Contador Regressivo")
-    countdown_str = f"{remaining_days} Dias | {remaining_hours} Horas | {remaining_seconds // 60} Minutos | {remaining_seconds % 60} Segundos"
-    st.subheader(countdown_str)
+    countdown_timer(remaining_days)
