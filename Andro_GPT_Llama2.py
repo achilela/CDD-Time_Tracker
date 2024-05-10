@@ -72,8 +72,9 @@ data = {
 }
 
 df = pd.DataFrame(data)
-df = df.set_index('Category')
-st.table(df.style.hide_index())
+df = df.reset_index()
+df = df[['Category', 'Dias', 'Meses', 'Horas']]
+st.table(df)
 
 col1, col2 = st.columns(2)
 
