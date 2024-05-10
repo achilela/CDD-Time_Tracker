@@ -2,6 +2,7 @@ import streamlit as st
 from datetime import datetime, date
 import pandas as pd
 import time
+import threading
 
 def calculate_working_days(start_date, end_date):
     date_range = pd.date_range(start=start_date, end=end_date, freq='B')
@@ -19,26 +20,26 @@ def days_to_months(days):
 def days_to_hours(days):
     return days * 8
 
-def countdown_timer(remaining_days):
+def countdown_timer(remaining_days, text_placeholder):
     remaining_seconds = remaining_days * 24 * 60 * 60
-    while remaining_seconds > 0:
-        days = remaining_seconds // (24 * 60 * 60)
-        hours = (remaining_seconds % (24 * 60 * 60)) // (60 * 60)
-        minutes = (remaining_seconds % (60 * 60)) // 60
-        seconds = remaining_seconds % 60
 
-        timer_str = f"{days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}"
-        st.markdown(
-            f"""
-            <div style="display: flex; justify-content: center; align-items: center;
-                        background-color: #1E88E5; padding: 10px; border-radius: 5px;">
-                <h2 style="color: white; margin: 0;">{timer_str}</h2>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        time.sleep(1)
-        remaining_seconds -= 1
+    def update_text():
+        while remaining_seconds > 0:
+            days = remaining_seconds // (24 * 60 * 60)
+            hours = (remaining_seconds % (24 * 60 * 60)) // (60 * 60)
+            minutes = (remaining_seconds % (60 * 60)) // 60
+            seconds = remaining_seconds % 60
+
+            timer_str = f"Time remaining: {days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}"
+            text_placeholder.markdown(f"<h2 style='text-align:center;'>{timer_str}</h2>", unsafe_allow_html=True)
+
+            time.sleep(1)  # Delay for 1 second
+            remaining_seconds -= 1
+
+        text_placeholder.markdown("<h2 style='text-align:center;'>Time's up!</h2>", unsafe_allow_html=True)
+
+    thread = threading.Thread(target=update_text)
+    thread.start()
 
 # Streamlit app
 st.set_page_config(page_title="Calculadora de Dias de Trabalho", layout="wide")
@@ -50,7 +51,7 @@ end_date = st.sidebar.date_input("Data de Término", value=date(2023, 12, 31))
 today_date = date.today()
 
 # Main content
-st.title("Calculadora de Dias de Trabalho")
+st.markdown("<h1 style='text-align:center;'>Calculadora de Dias de Trabalho</h1>", unsafe_allow_html=True)
 
 total_working_days = calculate_working_days(start_date, end_date)
 total_working_months = days_to_months(total_working_days)
@@ -63,19 +64,20 @@ remaining_days = total_working_days - worked_days
 remaining_months = days_to_months(remaining_days)
 remaining_hours = days_to_hours(remaining_days)
 
-# Use HTML format for headers
-st.markdown("<h2>Resultados</h2>", unsafe_allow_html=True)
-
-# Use a table for the results
 data = {
-    'Metrics': ['Total de Dias de Trabalho', 'Dias Trabalhados', 'Dias Restantes'],
+    'Category': ['Total de Dias de Trabalho', 'Dias Trabalhados', 'Dias Restantes'],
     'Dias': [total_working_days, worked_days, remaining_days],
     'Meses': [total_working_months, '', remaining_months],
     'Horas': [total_working_hours, worked_hours, remaining_hours],
 }
 
-st.table(pd.DataFrame(data))
+df = pd.DataFrame(data)
+df = df.set_index('Category')
+st.table(df.style.hide_index())
 
-# Interactive digital tic-tock
-st.markdown("<h2>Contador Regressivo</h2>", unsafe_allow_html=True)
-countdown_timer(remaining_days)
+col1, col2 = st.columns(2)
+
+with col2:
+    if st.button("Start Countdown"):
+        text_placeholder = st.empty()
+        countdown_timer(remaining_days, text_placeholder)
