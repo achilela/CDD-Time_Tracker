@@ -23,7 +23,7 @@ def days_to_hours(days):
 def countdown_timer(remaining_days, text_placeholder):
     remaining_seconds = remaining_days * 24 * 60 * 60
 
-    def update_text():
+    def update_text(placeholder):
         while remaining_seconds > 0:
             days = remaining_seconds // (24 * 60 * 60)
             hours = (remaining_seconds % (24 * 60 * 60)) // (60 * 60)
@@ -31,14 +31,14 @@ def countdown_timer(remaining_days, text_placeholder):
             seconds = remaining_seconds % 60
 
             timer_str = f"Time remaining: {days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}"
-            text_placeholder.markdown(f"<h2 style='text-align:center;'>{timer_str}</h2>", unsafe_allow_html=True)
+            placeholder.markdown(f"<h2 style='text-align:center;'>{timer_str}</h2>", unsafe_allow_html=True)
 
             time.sleep(1)  # Delay for 1 second
             remaining_seconds -= 1
 
-        text_placeholder.markdown("<h2 style='text-align:center;'>Time's up!</h2>", unsafe_allow_html=True)
+        placeholder.markdown("<h2 style='text-align:center;'>Time's up!</h2>", unsafe_allow_html=True)
 
-    thread = threading.Thread(target=update_text)
+    thread = threading.Thread(target=update_text, args=(text_placeholder,))
     thread.start()
 
 # Streamlit app
