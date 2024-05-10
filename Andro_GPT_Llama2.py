@@ -4,13 +4,11 @@ import pandas as pd
 import time
 
 def calculate_working_days(start_date, end_date):
-    # Create a date range excluding weekends
     date_range = pd.date_range(start=start_date, end=end_date, freq='B')
     total_working_days = len(date_range)
     return total_working_days
 
 def calculate_worked_days(start_date, today_date):
-    # Create a date range excluding weekends
     date_range = pd.date_range(start=start_date, end=today_date, freq='B')
     worked_days = len(date_range)
     return worked_days
@@ -32,7 +30,7 @@ def countdown_timer(remaining_days):
         timer_str = f"{days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}"
         st.markdown(
             f"""
-            <div style="display: flex; justify-content: center; align-items: center; 
+            <div style="display: flex; justify-content: center; align-items: center;
                         background-color: #1E88E5; padding: 10px; border-radius: 5px;">
                 <h2 style="color: white; margin: 0;">{timer_str}</h2>
             </div>
@@ -65,23 +63,19 @@ remaining_days = total_working_days - worked_days
 remaining_months = days_to_months(remaining_days)
 remaining_hours = days_to_hours(remaining_days)
 
-col1, col2 = st.columns(2)
+# Use HTML format for headers
+st.markdown("<h2>Resultados</h2>", unsafe_allow_html=True)
 
-with col1:
-    st.header("Total de Dias de Trabalho")
-    st.metric("Dias", total_working_days)
-    st.metric("Meses", total_working_months)
-    st.metric("Horas", total_working_hours)
+# Use a table for the results
+data = {
+    'Metrics': ['Total de Dias de Trabalho', 'Dias Trabalhados', 'Dias Restantes'],
+    'Dias': [total_working_days, worked_days, remaining_days],
+    'Meses': [total_working_months, '', remaining_months],
+    'Horas': [total_working_hours, worked_hours, remaining_hours],
+}
 
-    st.header("Dias Trabalhados")
-    st.metric("Dias", worked_days)
-    st.metric("Horas", worked_hours)
+st.table(pd.DataFrame(data))
 
-with col2:
-    st.header("Dias Restantes")
-    st.metric("Dias", remaining_days)
-    st.metric("Meses", remaining_months)
-    st.metric("Horas", remaining_hours)
-
-    st.header("Contador Regressivo")
-    countdown_timer(remaining_days)
+# Interactive digital tic-tock
+st.markdown("<h2>Contador Regressivo</h2>", unsafe_allow_html=True)
+countdown_timer(remaining_days)
