@@ -133,7 +133,7 @@ st.table(df)
 
 col1, col2 = st.columns(2)
 
-with col2:
-    if st.button("Start Countdown"):
-        text_placeholder = st.empty()
-        countdown_timer(remaining_days, text_placeholder)
+    with col2:
+        if st.button("Start Countdown"):
+            text_placeholder = st.empty()
+            countdown_timer(remaining_days, text_placeholder)
