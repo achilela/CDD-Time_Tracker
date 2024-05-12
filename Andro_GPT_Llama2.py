@@ -49,7 +49,7 @@ def countdown_timer(remaining_days, text_placeholder):
                 hours, rem = divmod(rem, 3600)
                 mins, secs = divmod(rem, 60)
             
-               countdown_str = f"""
+                countdown_str = f"""
             <div style="display: flex; justify-content: center; align-items: center; font-size: 36px; font-weight: bold;">
                 <div style="text-align: center; margin: 0 10px;">
                     <div style="font-size: 24px;">Dias</div>
