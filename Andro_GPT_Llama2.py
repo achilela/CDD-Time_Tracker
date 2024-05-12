@@ -4,6 +4,13 @@ import pandas as pd
 import time
 import threading
 
+
+# Sidebar
+st.sidebar.title("Datas do Contrato")
+start_date = st.sidebar.date_input("Data de Início", value=date(2024, 3, 22))
+end_date = st.sidebar.date_input("Data de Término", value=date(2029, 3, 22))
+today_date = date.today()
+
 def calculate_working_days(start_date, end_date):
     date_range = pd.date_range(start=start_date, end=end_date, freq='B')
     total_working_days = len(date_range)
@@ -21,34 +28,82 @@ def days_to_hours(days):
     return days * 8
 
 def countdown_timer(remaining_days, text_placeholder):
+
+    
+
+   end_date = end_date
+   end_time = st.time_input("Select the time on the future date:", value=datetime.now().time())
+
+    if st.button("Start Countdown"):
+        end_datetime = datetime.combine(end_date, end_time)
+        current_datetime = datetime.now()
+    
+        if end_datetime > current_datetime:
+            difference = end_datetime - current_datetime
+            total_seconds = difference.total_seconds()
+        
+            ph = st.empty()
+        
+            for secs in range(int(total_seconds), 0, -1):
+                days, rem = divmod(secs, 86400)
+                hours, rem = divmod(rem, 3600)
+                mins, secs = divmod(rem, 60)
+            
+               countdown_str = f"""
+            <div style="display: flex; justify-content: center; align-items: center; font-size: 36px; font-weight: bold;">
+                <div style="text-align: center; margin: 0 10px;">
+                    <div style="font-size: 24px;">Dias</div>
+                    <div>{days:02d}</div>
+                </div>
+                <div style="text-align: center; margin: 0 10px;">
+                    <div style="font-size: 24px;">Horas</div>
+                    <div>{hours:02d}</div>
+                </div>
+                <div style="text-align: center; margin: 0 10px;">
+                    <div style="font-size: 24px;">Minutos</div>
+                    <div>{mins:02d}</div>
+                </div>
+                <div style="text-align: center; margin: 0 10px;">
+                    <div style="font-size: 24px;">Segundos</div>
+                    <div>{secs:02d}</div>
+                </div>
+            </div>
+            """
+            
+            ph.markdown(countdown_str, unsafe_allow_html=True)
+            time.sleep(1)
+        
+        st.success("Countdown finished!")
+    else:
+        st.error("Please select a future date and time.")
+
+
+
+    
     remaining_seconds = remaining_days * 24 * 60 * 60
 
-    def update_text(placeholder):
-        while remaining_seconds > 0:
-            days = remaining_seconds // (24 * 60 * 60)
-            hours = (remaining_seconds % (24 * 60 * 60)) // (60 * 60)
-            minutes = (remaining_seconds % (60 * 60)) // 60
-            seconds = remaining_seconds % 60
+    #def update_text(placeholder):
+    #    while remaining_seconds > 0:
+    #        days = remaining_seconds // (24 * 60 * 60)
+    #        hours = (remaining_seconds % (24 * 60 * 60)) // (60 * 60)
+    #        minutes = (remaining_seconds % (60 * 60)) // 60
+    #        seconds = remaining_seconds % 60
 
-            timer_str = f"Time remaining: {days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}"
-            placeholder.markdown(f"<h2 style='text-align:center;'>{timer_str}</h2>", unsafe_allow_html=True)
+    #        timer_str = f"Time remaining: {days:02d}:{hours:02d}:{minutes:02d}:{seconds:02d}"
+    #        placeholder.markdown(f"<h2 style='text-align:center;'>{timer_str}</h2>", unsafe_allow_html=True)
 
-            time.sleep(1)  # Delay for 1 second
-            remaining_seconds -= 1
+    #        time.sleep(1)  # Delay for 1 second
+    #        remaining_seconds -= 1
 
-        placeholder.markdown("<h2 style='text-align:center;'>Time's up!</h2>", unsafe_allow_html=True)
+    #    placeholder.markdown("<h2 style='text-align:center;'>Time's up!</h2>", unsafe_allow_html=True)
 
-    thread = threading.Thread(target=update_text, args=(text_placeholder,))
-    thread.start()
+    #thread = threading.Thread(target=update_text, args=(text_placeholder,))
+    #thread.start()
 
 # Streamlit app
 st.set_page_config(page_title="CDD Duraçao Contractual", layout="wide")
 
-# Sidebar
-st.sidebar.title("Datas do Contrato")
-start_date = st.sidebar.date_input("Data de Início", value=date(2023, 1, 1))
-end_date = st.sidebar.date_input("Data de Término", value=date(2023, 12, 31))
-today_date = date.today()
+
 
 # Main content
 st.markdown("<h1 style='text-align:center;'>CDD Duraçao Contractual</h1>", unsafe_allow_html=True)
