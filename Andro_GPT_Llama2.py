@@ -31,8 +31,8 @@ def countdown_timer(remaining_days, text_placeholder):
 
     
 
-   end_date = end_date
-   end_time = st.time_input("Select the time on the future date:", value=datetime.now().time())
+    end_date = end_date
+    end_time = st.time_input("Select the time on the future date:", value=datetime.now().time())
 
     if st.button("Start Countdown"):
         end_datetime = datetime.combine(end_date, end_time)
@@ -133,7 +133,7 @@ st.table(df)
 
 col1, col2 = st.columns(2)
 
-    with col2:
-        if st.button("Start Countdown"):
-            text_placeholder = st.empty()
-            countdown_timer(remaining_days, text_placeholder)
+with col2:
+    if st.button("Start Countdown"):
+        text_placeholder = st.empty()
+        countdown_timer(remaining_days, text_placeholder)
