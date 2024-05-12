@@ -73,7 +73,7 @@ data = {
 
 df = pd.DataFrame(data)
 df = df.reset_index()
-df = df[['Category', 'Dias', 'Meses', 'Horas']]
+df = df[['Categoria', 'Dias', 'Meses', 'Horas']]
 st.table(df)
 
 col1, col2 = st.columns(2)
