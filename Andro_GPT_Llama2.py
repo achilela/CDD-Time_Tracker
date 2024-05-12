@@ -42,16 +42,16 @@ def countdown_timer(remaining_days, text_placeholder):
     thread.start()
 
 # Streamlit app
-st.set_page_config(page_title="Calculadora de Dias de Trabalho", layout="wide")
+st.set_page_config(page_title="CDD Duraçao Contractual", layout="wide")
 
 # Sidebar
-st.sidebar.title("Dados do Contrato")
+st.sidebar.title("Datas do Contrato")
 start_date = st.sidebar.date_input("Data de Início", value=date(2023, 1, 1))
 end_date = st.sidebar.date_input("Data de Término", value=date(2023, 12, 31))
 today_date = date.today()
 
 # Main content
-st.markdown("<h1 style='text-align:center;'>Calculadora de Dias de Trabalho</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center;'>CDD Duraçao Contractual</h1>", unsafe_allow_html=True)
 
 total_working_days = calculate_working_days(start_date, end_date)
 total_working_months = days_to_months(total_working_days)
@@ -65,7 +65,7 @@ remaining_months = days_to_months(remaining_days)
 remaining_hours = days_to_hours(remaining_days)
 
 data = {
-    'Category': ['Total de Dias de Trabalho', 'Dias Trabalhados', 'Dias Restantes'],
+    'Categoria': ['Duracao', 'Dias Trabalhados', 'Dias Restantes'],
     'Dias': [total_working_days, worked_days, remaining_days],
     'Meses': [total_working_months, '', remaining_months],
     'Horas': [total_working_hours, worked_hours, remaining_hours],
