@@ -4,7 +4,7 @@ import pandas as pd
 import time
 
 # Streamlit app configuration
-st.set_page_config(page_title="CDD Duraçao Contractual", layout="wide")
+st.set_page_config(page_title="Contrato de Duração Determinada - CDD", layout="wide")
 
 # Functions
 def calculate_working_days(start_date, end_date):
@@ -62,15 +62,15 @@ end_date = st.sidebar.date_input("Data de Término", value=date(2029, 3, 22))
 today_date = date.today()
 
 # File Upload Sidebar
-st.sidebar.title("Upload Reports")
-uploaded_files = st.sidebar.file_uploader("Choose a file", accept_multiple_files=True)
+st.sidebar.title("Carregar o seu ficheiro")
+uploaded_files = st.sidebar.file_uploader("Escolha o seu ficheiro", accept_multiple_files=True)
 for uploaded_file in uploaded_files:
     # Process the uploaded file
     # You can add your file processing logic here
     pass
 
 # Main content
-st.markdown("<h1 style='text-align:center; font-size: 24px;'>Contrato de Duração Determinada</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center; font-size: 24px;'>Contrato de Duração Determinada - CDD</h1>", unsafe_allow_html=True)
 
 total_working_days = calculate_working_days(start_date, end_date)
 total_working_months = days_to_months(total_working_days)
