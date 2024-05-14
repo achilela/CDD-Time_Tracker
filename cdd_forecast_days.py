@@ -100,7 +100,7 @@ with col1:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with col2:
-    if st.button("Start Countdown"):
+    if st.button("Contagem Regressiva "):
         text_placeholder = st.empty()
         countdown_timer(remaining_days, remaining_hours, text_placeholder)
 
