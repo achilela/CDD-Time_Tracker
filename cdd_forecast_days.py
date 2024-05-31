@@ -25,53 +25,45 @@ def days_to_months(days):
 def days_to_hours(days):
     return days * 8
 
-def countdown_timer(remaining_days, remaining_hours, ph):
+def digital_clock(remaining_days, remaining_hours, ph):
     total_seconds = remaining_hours * 3600
     days = remaining_days
     for secs in range(int(total_seconds), 0, -1):
         hours, rem = divmod(secs, 3600)
         mins, secs = divmod(rem, 60)
-        countdown_str = f"""
+        clock_str = f"""
         <div style="display: flex; justify-content: center; align-items: center; font-size: 36px; font-weight: bold;">
         <div style="text-align: center; margin: 0 10px;">
-        <div style="font-size: 24px;">Dias</div>
+        <div style="font-size: 24px;">DAYS</div>
         <div>{days:02d}</div>
         </div>
         <div style="text-align: center; margin: 0 10px;">
-        <div style="font-size: 24px;">Horas</div>
+        <div style="font-size: 24px;">HOURS</div>
         <div>{hours:02d}</div>
         </div>
         <div style="text-align: center; margin: 0 10px;">
-        <div style="font-size: 24px;">Minutos</div>
+        <div style="font-size: 24px;">MINUTES</div>
         <div>{mins:02d}</div>
         </div>
         <div style="text-align: center; margin: 0 10px;">
-        <div style="font-size: 24px;">Segundos</div>
+        <div style="font-size: 24px;">SECONDS</div>
         <div>{secs:02d}</div>
         </div>
         </div>
         """
-        ph.markdown(countdown_str, unsafe_allow_html=True)
+        ph.markdown(clock_str, unsafe_allow_html=True)
         time.sleep(1)
+        st.experimental_rerun()
         if secs == 0 and mins == 0 and hours == 0:
             days -= 1
     st.success("Countdown finished!")
-
-# Function to display the digital clock
-def digital_clock():
-    while True:
-        now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-        st.sidebar.markdown(f"<h1 style='text-align: center;'>{current_time}</h1>", unsafe_allow_html=True)
-        time.sleep(1)
-        st.experimental_rerun()
 
 # Sidebar
 st.sidebar.title("Configurações do Contrato")
 
 # Get user input
-start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 1, 1))
-end_date = st.sidebar.date_input("Data de Término do Contrato", date(2023, 12, 31))
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2024, 3, 22))
+end_date = st.sidebar.date_input("Data de Término do Contrato", date(2029, 3, 22))
 today_date = date.today()
 
 # Title and description
@@ -107,7 +99,7 @@ with col1:
 with col2:
     if st.button("Contagem Regressiva "):
         text_placeholder = st.empty()
-        countdown_timer(remaining_days, remaining_hours, text_placeholder)
+        digital_clock(remaining_days, remaining_hours, text_placeholder)
 
 # Chatbot Interface
 with st.container():
@@ -131,6 +123,3 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-# Run the digital clock in the sidebar
-digital_clock()
