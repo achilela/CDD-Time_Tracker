@@ -25,13 +25,10 @@ def days_to_months(days):
 def days_to_hours(days):
     return days * 8
 
-# Function to display the digital clock
 def display_clock(remaining_days, remaining_hours):
-    ph = st.empty()
     total_seconds = remaining_hours * 3600
     days = remaining_days
-    for _ in range(total_seconds):
-        now = datetime.now()
+    while True:
         hours, rem = divmod(total_seconds, 3600)
         mins, secs = divmod(rem, 60)
         clock_str = f"""
@@ -54,17 +51,20 @@ def display_clock(remaining_days, remaining_hours):
         </div>
         </div>
         """
-        ph.markdown(clock_str, unsafe_allow_html=True)
+        st.markdown(clock_str, unsafe_allow_html=True)
         time.sleep(1)
         total_seconds -= 1
+        if secs == 0 and mins == 0 and hours == 0:
+            days -= 1
+            total_seconds = 86400  # Reset total_seconds for the next day
         st.experimental_rerun()
 
 # Sidebar
 st.sidebar.title("Configurações do Contrato")
 
-# Use the specified dates
-start_date = date(2023, 3, 22)
-end_date = date(2029, 3, 22)
+# Get user input
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 3, 22))
+end_date = st.sidebar.date_input("Data de Término do Contrato", date(2029, 3, 22))
 today_date = date.today()
 
 # Title and description
