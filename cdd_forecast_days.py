@@ -1,3 +1,5 @@
+# cdd_forecast_days.py
+
 import streamlit as st
 from datetime import datetime, date, timedelta
 import pandas as pd
@@ -55,22 +57,25 @@ def countdown_timer(remaining_days, remaining_hours, ph):
             days -= 1
     st.success("Countdown finished!")
 
+# Function to display the digital clock
+def digital_clock():
+    while True:
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        st.sidebar.markdown(f"<h1 style='text-align: center;'>{current_time}</h1>", unsafe_allow_html=True)
+        time.sleep(1)
+        st.experimental_rerun()
+
 # Sidebar
-st.sidebar.title("Datas do Contrato")
-start_date = st.sidebar.date_input("Data de Início", value=date(2024, 3, 22))
-end_date = st.sidebar.date_input("Data de Término", value=date(2029, 3, 22))
+st.sidebar.title("Configurações do Contrato")
+
+# Get user input
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 1, 1))
+end_date = st.sidebar.date_input("Data de Término do Contrato", date(2023, 12, 31))
 today_date = date.today()
 
-# File Upload Sidebar
-st.sidebar.title("Carregar o seu ficheiro")
-uploaded_files = st.sidebar.file_uploader("Escolha o seu ficheiro", accept_multiple_files=True)
-for uploaded_file in uploaded_files:
-    # Process the uploaded file
-    # You can add your file processing logic here
-    pass
-
-# Main content
-st.markdown("<h1 style='text-align:center; font-size: 24px;'>Contrato de Duração Determinada - CDD</h1>", unsafe_allow_html=True)
+# Title and description
+st.markdown("<h1 style='text-align: center; font-size: 24px;'>Contrato de Duração Determinada - CDD</h1>", unsafe_allow_html=True)
 
 total_working_days = calculate_working_days(start_date, end_date)
 total_working_months = days_to_months(total_working_days)
@@ -126,3 +131,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+# Run the digital clock in the sidebar
+digital_clock()
