@@ -61,7 +61,7 @@ def display_clock(remaining_days, remaining_hours):
 st.sidebar.title("Configurações do Contrato")
 
 # Get user input
-start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 3, 22))
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2024, 3, 22))
 end_date = st.sidebar.date_input("Data de Término do Contrato", date(2029, 3, 22))
 today_date = date.today()
 
@@ -79,7 +79,7 @@ remaining_months = days_to_months(remaining_days)
 remaining_hours = days_to_hours(remaining_days)
 
 data = {
-    'Categoria': ['Duracao', 'Dias Trabalhados', 'Dias Restantes'],
+    'Categoria': ['Duração', 'Dias Trabalhados', 'Dias Restantes'],
     'Dias': [total_working_days, worked_days, remaining_days],
     'Meses': [total_working_months, worked_months, remaining_months],
     'Horas': [total_working_hours, worked_hours, remaining_hours],
@@ -88,15 +88,13 @@ data = {
 df = pd.DataFrame(data)
 df = df[['Categoria', 'Dias', 'Meses', 'Horas']]
 
-col1, col2 = st.columns(2)
+# Center the table on the main canvas
+st.markdown("<div style='display: flex; justify-content: center;'>", unsafe_allow_html=True)
+st.table(df)
+st.markdown("</div>", unsafe_allow_html=True)
 
-with col1:
-    st.markdown("<div style='display: flex; justify-content: center;'>", unsafe_allow_html=True)
-    st.table(df)
-    st.markdown("</div>", unsafe_allow_html=True)
-
-if st.sidebar.button("Start Countdown"):
-    display_clock(remaining_days, remaining_hours)
+# Start the countdown clock automatically
+display_clock(remaining_days, remaining_hours)
 
 # Chatbot Interface
 with st.container():
