@@ -1,9 +1,6 @@
-# cdd_forecast_days.py
-
 import streamlit as st
 from datetime import datetime, date, timedelta
 import pandas as pd
-import time
 
 # Streamlit app configuration
 st.set_page_config(page_title="Contrato de Duração Determinada - CDD", layout="wide")
@@ -52,12 +49,11 @@ def display_clock(remaining_days, remaining_hours):
         </div>
         """
         st.markdown(clock_str, unsafe_allow_html=True)
-        time.sleep(1)
+        st.experimental_rerun()
         total_seconds -= 1
         if secs == 0 and mins == 0 and hours == 0:
             days -= 1
             total_seconds = 86400  # Reset total_seconds for the next day
-        st.experimental_rerun()
 
 # Sidebar
 st.sidebar.title("Configurações do Contrato")
@@ -100,7 +96,8 @@ with col1:
 with col2:
     text_placeholder = st.empty()
     if st.button("Contagem Regressiva "):
-        display_clock(remaining_days, remaining_hours)
+        for remaining_hours in range(remaining_hours, -1, -1):
+            display_clock(remaining_days, remaining_hours)
 
 # Chatbot Interface
 with st.container():
