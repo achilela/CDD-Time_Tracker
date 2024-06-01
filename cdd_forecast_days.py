@@ -61,7 +61,7 @@ def display_clock(remaining_days, remaining_hours):
 st.sidebar.title("Configurações do Contrato")
 
 # Get user input
-start_date = st.sidebar.date_input("Data de Início do Contrato", date(2024, 3, 22))
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 3, 22))
 end_date = st.sidebar.date_input("Data de Término do Contrato", date(2029, 3, 22))
 today_date = date.today()
 
@@ -88,23 +88,25 @@ data = {
 df = pd.DataFrame(data)
 df = df[['Categoria', 'Dias', 'Meses', 'Horas']]
 
-# Center the table on the main canvas
+# Center the table on the main canvas and reduce the width
 st.markdown("<div style='display: flex; justify-content: center;'>", unsafe_allow_html=True)
-st.table(df)
+st.table(df.style.set_table_styles([
+    {'selector': 'th', 'props': [('text-align', 'center'), ('font-size', '16px')]},
+    {'selector': 'td', 'props': [('text-align', 'center'), ('font-size', '16px')]}
+]))
 st.markdown("</div>", unsafe_allow_html=True)
 
 # Start the countdown clock automatically
 display_clock(remaining_days, remaining_hours)
 
 # Chatbot Interface
-with st.container():
-     st.markdown("<h2 style='font-size: 24px;'>Assistente de Contratos</h2>", unsafe_allow_html=True)
-     user_input = st.text_input("Insira a dúvida que pretendes esclarecer...")
-     if user_input:
-        # Process the user input and generate a response
-        # You can add your chatbot logic here
-        response = "Esta é uma resposta automática, não leve em consideração."
-        st.write(response)
+st.markdown("<h2 style='font-size: 24px;'>Assistente de Contratos</h2>", unsafe_allow_html=True)
+user_input = st.text_input("Insira a dúvida que pretendes esclarecer...")
+if user_input:
+    # Process the user input and generate a response
+    # You can add your chatbot logic here
+    response = "Esta é uma resposta automática, não leve em consideração."
+    st.write(response)
 
 # Custom CSS style to limit the width of the chat window
 st.markdown(
