@@ -1,6 +1,7 @@
 import streamlit as st
 from datetime import datetime, date, timedelta
 import pandas as pd
+import time
 
 # Streamlit app configuration
 st.set_page_config(page_title="Contrato de Duração Determinada - CDD", layout="wide")
@@ -25,7 +26,8 @@ def days_to_hours(days):
 def display_clock(remaining_days, remaining_hours):
     total_seconds = remaining_hours * 3600
     days = remaining_days
-    while True:
+    ph = st.sidebar.empty()
+    while total_seconds > 0:
         hours, rem = divmod(total_seconds, 3600)
         mins, secs = divmod(rem, 60)
         clock_str = f"""
@@ -48,8 +50,8 @@ def display_clock(remaining_days, remaining_hours):
         </div>
         </div>
         """
-        st.markdown(clock_str, unsafe_allow_html=True)
-        st.experimental_rerun()
+        ph.markdown(clock_str, unsafe_allow_html=True)
+        time.sleep(1)
         total_seconds -= 1
         if secs == 0 and mins == 0 and hours == 0:
             days -= 1
@@ -59,7 +61,7 @@ def display_clock(remaining_days, remaining_hours):
 st.sidebar.title("Configurações do Contrato")
 
 # Get user input
-start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 3, 22))
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2024, 3, 22))
 end_date = st.sidebar.date_input("Data de Término do Contrato", date(2029, 3, 22))
 today_date = date.today()
 
@@ -93,11 +95,8 @@ with col1:
     st.table(df)
     st.markdown("</div>", unsafe_allow_html=True)
 
-with col2:
-    text_placeholder = st.empty()
-    if st.button("Contagem Regressiva "):
-        for remaining_hours in range(remaining_hours, -1, -1):
-            display_clock(remaining_days, remaining_hours)
+if st.sidebar.button("Start Countdown"):
+    display_clock(remaining_days, remaining_hours)
 
 # Chatbot Interface
 with st.container():
