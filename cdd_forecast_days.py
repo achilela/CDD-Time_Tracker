@@ -31,23 +31,23 @@ def display_clock(remaining_days, remaining_hours):
         hours, rem = divmod(total_seconds, 3600)
         mins, secs = divmod(rem, 60)
         clock_str = f"""
-        <div style="display: flex; justify-content: center; align-items: center; font-size: 36px; font-weight: bold;">
-        <div style="text-align: center; margin: 0 10px;">
-        <div style="font-size: 24px;">DAYS</div>
-        <div>{days:02d}</div>
-        </div>
-        <div style="text-align: center; margin: 0 10px;">
-        <div style="font-size: 24px;">HOURS</div>
-        <div>{hours:02d}</div>
-        </div>
-        <div style="text-align: center; margin: 0 10px;">
-        <div style="font-size: 24px;">MINUTES</div>
-        <div>{mins:02d}</div>
-        </div>
-        <div style="text-align: center; margin: 0 10px;">
-        <div style="font-size: 24px;">SECONDS</div>
-        <div>{secs:02d}</div>
-        </div>
+        <div style="display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold;">
+            <div style="text-align: center; margin: 0 10px;">
+                <div style="font-size: 36px;">{days:02d}</div>
+                <div style="font-size: 16px;">DAYS</div>
+            </div>
+            <div style="text-align: center; margin: 0 10px;">
+                <div style="font-size: 36px;">{hours:02d}</div>
+                <div style="font-size: 16px;">HOURS</div>
+            </div>
+            <div style="text-align: center; margin: 0 10px;">
+                <div style="font-size: 36px;">{mins:02d}</div>
+                <div style="font-size: 16px;">MINUTES</div>
+            </div>
+            <div style="text-align: center; margin: 0 10px;">
+                <div style="font-size: 36px;">{secs:02d}</div>
+                <div style="font-size: 16px;">SECONDS</div>
+            </div>
         </div>
         """
         ph.markdown(clock_str, unsafe_allow_html=True)
@@ -61,7 +61,7 @@ def display_clock(remaining_days, remaining_hours):
 st.sidebar.title("Configurações do Contrato")
 
 # Get user input
-start_date = st.sidebar.date_input("Data de Início do Contrato", date(2024, 3, 22))
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 3, 22))
 end_date = st.sidebar.date_input("Data de Término do Contrato", date(2029, 3, 22))
 today_date = date.today()
 
