@@ -31,21 +31,21 @@ def display_clock(remaining_days, remaining_hours):
         hours, rem = divmod(total_seconds, 3600)
         mins, secs = divmod(rem, 60)
         clock_str = f"""
-        <div style="display: flex; justify-content: center; align-items: center; font-size: 18px; font-weight: bold;">
+        <div style="display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: bold;">
             <div style="text-align: center; margin: 0 10px;">
-                <div style="font-size: 27px;">{days:02d}</div>
+                <div style="font-size: 24px;">{days:02d}</div>
                 <div style="font-size: 12px;">DAYS</div>
             </div>
             <div style="text-align: center; margin: 0 10px;">
-                <div style="font-size: 27px;">{hours:02d}</div>
+                <div style="font-size: 24px;">{hours:02d}</div>
                 <div style="font-size: 12px;">HOURS</div>
             </div>
             <div style="text-align: center; margin: 0 10px;">
-                <div style="font-size: 27px;">{mins:02d}</div>
+                <div style="font-size: 24px;">{mins:02d}</div>
                 <div style="font-size: 12px;">MINUTES</div>
             </div>
             <div style="text-align: center; margin: 0 10px;">
-                <div style="font-size: 27px;">{secs:02d}</div>
+                <div style="font-size: 24px;">{secs:02d}</div>
                 <div style="font-size: 12px;">SECONDS</div>
             </div>
         </div>
@@ -61,7 +61,7 @@ def display_clock(remaining_days, remaining_hours):
 st.sidebar.title("Configurações do Contrato")
 
 # Get user input
-start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 3, 22))
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2024, 3, 22))
 end_date = st.sidebar.date_input("Data de Término do Contrato", date(2029, 3, 22))
 today_date = date.today()
 
@@ -79,7 +79,7 @@ remaining_months = days_to_months(remaining_days)
 remaining_hours = days_to_hours(remaining_days)
 
 data = {
-    'Categoria': ['Duracao', 'Dias Trabalhados', 'Dias Restantes'],
+    'Categoria': ['Duração', 'Dias Trabalhados', 'Dias Restantes'],
     'Dias': [total_working_days, worked_days, remaining_days],
     'Meses': [total_working_months, worked_months, remaining_months],
     'Horas': [total_working_hours, worked_hours, remaining_hours],
