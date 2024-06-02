@@ -31,7 +31,7 @@ def display_clock(remaining_days, remaining_hours):
         hours, rem = divmod(total_seconds, 3600)
         mins, secs = divmod(rem, 60)
         clock_str = f"""
-        <div style="display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: bold;">
+        <div style="display: flex; justify-content: center; align-items: center; font-size: 16px; font-weight: bold;">
             <div style="text-align: center; margin: 0 10px;">
                 <div style="font-size: 24px;">{days:02d}</div>
                 <div style="font-size: 12px;">DAYS</div>
