@@ -61,7 +61,7 @@ def display_clock(remaining_days, remaining_hours):
 st.sidebar.title("Configurações do Contrato")
 
 # Get user input
-start_date = st.sidebar.date_input("Data de Início do Contrato", date(2023, 3, 22))
+start_date = st.sidebar.date_input("Data de Início do Contrato", date(2024, 3, 22))
 end_date = st.sidebar.date_input("Data de Término do Contrato", date(2029, 3, 22))
 today_date = date.today()
 
