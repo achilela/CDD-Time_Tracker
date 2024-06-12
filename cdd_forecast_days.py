@@ -61,6 +61,11 @@ start_date = date(2024, 3, 22)
 end_date = date(2029, 3, 22)
 today_date = date(2024, 6, 14)
 
+# Sidebar
+st.sidebar.markdown("### Data do Contrato")
+st.sidebar.write(f"Data de Início: {start_date.strftime('%d-%b-%Y')}")
+st.sidebar.write(f"Data de Término: {end_date.strftime('%d-%b-%Y')}")
+
 # Calculate the working days, months, and hours
 total_working_days = calculate_working_days(start_date, end_date)
 total_working_months = days_to_months(total_working_days)
