@@ -56,23 +56,18 @@ def display_clock(remaining_days, remaining_hours):
         if hours == 0 and mins == 0 and secs == 0:
             days -= 1
 
-# Input start and end dates with dropdowns
+# Sidebar inputs
 st.sidebar.markdown("### Data do Contrato")
 start_date = st.sidebar.date_input("Data de Início", date(2024, 3, 22))
 end_date = st.sidebar.date_input("Data de Término", date(2029, 3, 22))
-today_date = date(2024, 6, 14)
+today_date = st.sidebar.date_input("Data de Hoje", date(2024, 6, 14))
 
 # Calculate the working days, months, and hours
 total_working_days = calculate_working_days(start_date, end_date)
 total_working_months = days_to_months(total_working_days)
 total_working_hours = days_to_hours(total_working_days)
 worked_days = calculate_worked_days(start_date, today_date)
-
-# Adjust the worked_hours calculation to match the actual accrued hours
-# Based on your input, you should have accrued 456 hours by June 14th, 2024
-actual_accrued_hours = 456
-worked_hours = actual_accrued_hours
-worked_days = worked_hours // 8
+worked_hours = days_to_hours(worked_days)
 worked_months = days_to_months(worked_days)
 
 remaining_days = total_working_days - worked_days
