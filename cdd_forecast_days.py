@@ -56,15 +56,11 @@ def display_clock(remaining_days, remaining_hours):
         if hours == 0 and mins == 0 and secs == 0:
             days -= 1
 
-# Input start and end dates
-start_date = date(2024, 3, 22)
-end_date = date(2029, 3, 22)
-today_date = date(2024, 6, 14)
-
-# Sidebar
+# Input start and end dates with dropdowns
 st.sidebar.markdown("### Data do Contrato")
-st.sidebar.write(f"Data de Início: {start_date.strftime('%d-%b-%Y')}")
-st.sidebar.write(f"Data de Término: {end_date.strftime('%d-%b-%Y')}")
+start_date = st.sidebar.date_input("Data de Início", date(2024, 3, 22))
+end_date = st.sidebar.date_input("Data de Término", date(2029, 3, 22))
+today_date = date(2024, 6, 14)
 
 # Calculate the working days, months, and hours
 total_working_days = calculate_working_days(start_date, end_date)
