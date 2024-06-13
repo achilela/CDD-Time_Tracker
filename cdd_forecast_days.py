@@ -60,7 +60,9 @@ def display_clock(remaining_days, remaining_hours):
 st.sidebar.markdown("### Data do Contrato")
 start_date = st.sidebar.date_input("Data de Início", date(2024, 3, 22))
 end_date = st.sidebar.date_input("Data de Término", date(2029, 3, 22))
-today_date = st.sidebar.date_input("Data de Hoje", date(2024, 6, 14))
+
+# Use the current date as today's date
+today_date = date.today()
 
 # Calculate the working days, months, and hours
 total_working_days = calculate_working_days(start_date, end_date)
